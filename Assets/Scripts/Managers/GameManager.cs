@@ -42,6 +42,10 @@ public class GameManager : MonoBehaviour
     void EnemyTurn() {
         Debug.Log("Enemies' turn!");
 
+        foreach(Enemy enemy in MapManager.enemies) {
+            enemy.brain.DoTurn();
+        }
+
         isPlayerTurn = true;
     }
 
@@ -50,6 +54,10 @@ public class GameManager : MonoBehaviour
             for (int x = 0; x < dungeonGenerator.mapWidth; x++) {
                 if (MapManager.map[x, y] != null) {
                     FoV.VisibilityCheck(new Vector2Int(x, y));
+
+                    if (MapManager.map[x, y].hasEnemy) {
+                        MapManager.map[x, y].enemyObject.GetComponent<EnemyVisibility>().VisibilityCheck(new Vector2Int(x, y));
+                    }
                 }
             }
         }

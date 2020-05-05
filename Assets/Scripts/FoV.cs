@@ -33,9 +33,7 @@ public class FoV
         }
 
         foreach (Vector2Int borderTile in borderTiles) {
-            Debug.Log("border tile: " + borderTile);
             foreach(Vector2Int cell in GetCellsAlongLine(position, position + borderTile)) {
-                Debug.Log("Cells Along Line: " + cell);
                 MapManager.map[cell.x, cell.y].isVisible = true;
                 MapManager.map[cell.x, cell.y].isExplored = true;
                 if (MapManager.map[cell.x, cell.y].isOpaque) {
@@ -43,6 +41,21 @@ public class FoV
                 }
             }
         }
+    }
+
+    static public List<Vector2Int> GetEnemyFoV(Vector2Int position) {
+        List<Vector2Int> positions = new List<Vector2Int>();
+
+        foreach (Vector2Int pos in borderTiles) {
+            foreach (Vector2Int cell in GetCellsAlongLine(position, position + pos)) {
+                positions.Add(cell);
+                if (MapManager.map[cell.x, cell.y].isOpaque) {
+                    break;
+                }
+            }
+        }
+
+        return positions;
     }
 
     static public void VisibilityCheck(Vector2Int position) {

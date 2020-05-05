@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapManager {
-    public static Tile[,] map; // the 2-dimensional map with the information for all the tiles
+    public static Tile[,] map; 
+    public static List<Enemy> enemies;
 }
 
 [Serializable] // Makes the class serializable so it can be saved out to a file
@@ -22,6 +23,10 @@ public class Tile { // Holds all the information for each tile on the map
     public bool isVisible = false;
     public bool isExplored = false;
     public string color = "black";
+    public bool hasEnemy = false;
+    public int enemyID = -1;
+    [NonSerialized]
+    public GameObject enemyObject;
 }
 
 [Serializable]
@@ -42,4 +47,11 @@ public class Feature { // A class for saving the feature (corridor or room) info
     public int height;
     public int id;
     public bool hasPlayer = false;
+}
+
+[Serializable]
+public class Enemy {
+    public Vector2Int position;
+    public string name;
+    public EnemyBrain brain;
 }
